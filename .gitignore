@@ -1,0 +1,70 @@
+**/.idea
+
+# Archivos de compilación
+**/bin/
+**/obj/
+**/*.dll
+
+# Sql Docker Volume
+**/sqlData/
+
+# Appsettings
+**/appsettings.json
+
+# Linting
+**/.sonarqube
+
+out/
+
+# Docker database
+**/sqlDat/
+
+# Archivos de usuario de Visual Studio/JetBrains Rider
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.idea/
+.vscode/
+
+# Archivos de configuración y temporales
+*.log
+*.vspscc
+*.vssscc
+*.dbmdl
+*.pdb
+*.cache
+*.config
+*.DotSettings.user
+
+# Paquetes NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Archivos de publicación
+publish/
+AppPackages/
+TestResults/
+*.TestResults
+
+# Archivos de Rider
+.idea/
+*.sln.iml
+
+# Archivos de sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+
+# Archivos de entorno
+**/.env
+.env
+.env.*
+
+# Archivos generados por herramientas
+Generated_Code/

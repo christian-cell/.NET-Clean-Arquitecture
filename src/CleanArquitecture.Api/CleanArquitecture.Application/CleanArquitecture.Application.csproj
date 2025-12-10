@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Commands\Products\" />
+      <Folder Include="Exceptions\" />
+      <Folder Include="Mapping\" />
+      <Folder Include="Queries\" />
+      <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NetNinja.Mediator" Version="1.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CleanArquitecture.Domain\CleanArquitecture.Domain.csproj" />
+      <ProjectReference Include="..\CleanArquitecture.Infrastructure\CleanArquitecture.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

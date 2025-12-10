@@ -1,0 +1,67 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    build:
+      context: ./CleanArquitecture.Api
+    ports:
+      - '8080:80'
+    restart: unless-stopped
+    volumes:
+      - ./CleanArquitecture.Api:/src/CleanArquitecture.Api
+    depends_on:
+      sql-server:
+        condition: service_healthy
+    networks:
+      - CleanArquitecture-network
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${SA_PASSWORD}
+      - MSSQL_ENCRYPT=false # para windows, en ubuntu noecesario
+      - MSSQL_TCP_PORT=1433 # para windows, en ubuntu noecesario
+    ports:
+        - "14330:1433"
+    restart: always
+    healthcheck:
+      test: [
+        "CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SA_PASSWORD}", "-C", "-Q", "SELECT 1"
+      ]
+      interval: 10s
+      retries: 5
+      start_period: 40s
+    volumes:
+      #- ./sqlData/dump:/var/opt/mssql
+      # NO OLVIDAR DAR LOS PERMISOS a ./sqlData/dump/data y /log
+      # when you run docker-compose up -d --build it create locally a sqlData with readonly permissions modify this in windows
+      - ./sqlData/dump/data:/var/opt/mssql/data 
+      - ./sqlData/dump/log:/var/opt/mssql/log
+      - ./sqlData/dump/secrets:/var/opt/mssql/secrets
+
+      # checks TODO
+      # docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "" -C
+      # data, log and secrets need all permissions
+      # enable remote connection
+      # EXEC sp_configure 'remote access', 0;
+      # GO
+      # RECONFIGURE;
+      # GO
+
+      # docker exec -it sql-server /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "" -C -Q "EXEC sp_configure 'remote access', 1; RECONFIGURE;"
+
+      # create database for sample Karma
+      # CREATE DATABASE Karma;
+      # GO
+    networks:
+      - CleanArquitecture-network
+
+networks:
+  CleanArquitecture-network:
+    name: CleanArquitecture-network
+    driver: bridge
+
+volumes:
+  dump:
