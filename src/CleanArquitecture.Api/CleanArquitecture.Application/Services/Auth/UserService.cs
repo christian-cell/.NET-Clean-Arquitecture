@@ -64,6 +64,8 @@ namespace CleanArquitecture.Application.Services.Auth
         {
             var user = await SearchUserByEmail(email);
             
+            if (user is {}) throw new NotFoundException("User","email",email);
+            
             if (!user.Active) throw new SecurityException($"The user {email} has not been activated");
             
             var verified = _cryptographyService.ValidatePasswordAndHash(password, user.Salt, user.PasswordHash);
@@ -86,11 +88,9 @@ namespace CleanArquitecture.Application.Services.Auth
             };
         }
         
-        public async Task<User> SearchUserByEmail(string email)
+        public async Task<User?> SearchUserByEmail(string email)
         {
             var user = await _userRepository.GetByEmailAsync(email);
-            
-            if (user is null) throw new NotFoundException("User","email",email);
 
             return user;
         }

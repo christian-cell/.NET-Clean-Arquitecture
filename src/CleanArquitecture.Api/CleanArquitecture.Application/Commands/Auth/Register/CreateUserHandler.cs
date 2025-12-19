@@ -18,10 +18,6 @@ namespace CleanArquitecture.Application.Commands.Auth.Register
 
         public async Task<CreateUserResponse> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            var userExists = await _userService.CheckUserExists(command.Email);
-             
-            if (userExists)throw new AlreadyExistsException("User" , "Email", command.Email);
-            
             string salt = _cryptographyService.GenerateSalt();
 
             command.Salt = salt;

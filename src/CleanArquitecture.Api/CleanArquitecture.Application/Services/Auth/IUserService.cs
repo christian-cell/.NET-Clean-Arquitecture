@@ -12,7 +12,7 @@ namespace CleanArquitecture.Application.Services.Auth
 
         public string GetUser();
         Task<UserDto> CheckVerifiedUserAsync(string email, string password);
-        Task<User> SearchUserByEmail(string email);
+        Task<User?> SearchUserByEmail(string email);
         Task<User> SearchUserById(Guid id);
     }
 };

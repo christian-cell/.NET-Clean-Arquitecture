@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using CleanArquitecture.Domain.Interfaces;
+using FluentValidation;
 using NetNinja.Mediator.Abstractions;
 using ValidationException = CleanArquitecture.Application.Exceptions.ValidationException;
 
@@ -7,7 +8,7 @@ namespace CleanArquitecture.Application.Behaviors
     public class ValidationBehavior<TRequest, TResponse>: IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
-
+        
         public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators ?? Enumerable.Empty<IValidator<TRequest>>();

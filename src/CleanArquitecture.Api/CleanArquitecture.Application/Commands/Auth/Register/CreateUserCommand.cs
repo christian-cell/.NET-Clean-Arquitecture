@@ -66,14 +66,14 @@ namespace CleanArquitecture.Application.Commands.Auth.Register
 
 /*
  * Sample
- {
+  {
   "firstName": "christian",
   "lastName": "garcia",
   "documentNumber": "234234234r",
-  "email": "cgarcia@",
-  "phone": "string",
+  "email": "cgarcia@gmail.com",
+  "phone": "66666666666",
   "password": "1234",
-  "passwordConfirm": "123"
+  "passwordConfirm": "1234"
 }
  */
 
