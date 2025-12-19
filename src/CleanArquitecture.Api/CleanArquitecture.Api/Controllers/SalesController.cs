@@ -20,7 +20,7 @@ namespace CleanArquitecture.Api.Controllers
         }
 
         [HttpPost]
-        [NewScoreRateLimitFilter(5, 5)]
+        [EndpointRateLimitFilterAttribute(5, 5)]
         public async Task<IActionResult> CreateSale(CreateUserCommand createUserCommand)
         {
             await _mediator.Send(createUserCommand);

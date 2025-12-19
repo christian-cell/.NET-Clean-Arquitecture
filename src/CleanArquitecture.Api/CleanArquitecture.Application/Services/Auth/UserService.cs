@@ -34,18 +34,9 @@ namespace CleanArquitecture.Application.Services.Auth
 
         public async Task<bool> CheckUserExists(string email)
         {
-        
             var customer = await _userRepository.GetByEmailAsync(email);
 
-            if (customer == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        
+            return customer == null ? false : true;
         }
 
         public async Task<Guid> CreateUser( CreateUserCommand command )
@@ -64,12 +55,7 @@ namespace CleanArquitecture.Application.Services.Auth
          
             bool ok = await _userRepository.SaveAsync().ConfigureAwait(false);
             
-            if (!ok)
-            {
-                _logger.LogError("Something went wrong creating a new Customer");
- 
-                throw new Exception("Something went wrong creating a new Customer");
-            }
+            if (!ok) throw new Exception("Something went wrong creating a new Customer");
 
             return result.Id;
         }
@@ -112,17 +98,16 @@ namespace CleanArquitecture.Application.Services.Auth
         public async Task<User> SearchUserById(Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
+            
             if (user is null) throw new NotFoundException("User", "id", id);
+            
             return user;
         }
 
         public string GetUser()
         {
-
             return ClaimExtension.GetValueFromUserClaims<string>("user", _httpContextAccessor.HttpContext, UserClaim.Id);
         }
-
-        
     }
 };
 

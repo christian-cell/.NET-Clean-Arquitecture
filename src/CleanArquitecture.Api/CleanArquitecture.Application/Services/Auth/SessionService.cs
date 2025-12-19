@@ -22,12 +22,9 @@ namespace CleanArquitecture.Application.Services.Auth
         {
             var ok = await _sessionRepository.UpdateAsync(session.Id, session).ConfigureAwait(false);
 
-            if (ok) ok = await _sessionRepository.SaveAsync().ConfigureAwait(false);
-
-            if (!ok)
-            {
-                throw new Exception("Something went wrong updating Session");
-            }
+            if (!ok) throw new Exception("Something went wrong updating Session");
+            
+            await _sessionRepository.SaveAsync().ConfigureAwait(false);
         }
 
         
@@ -40,9 +37,7 @@ namespace CleanArquitecture.Application.Services.Auth
         {
             var sessions = await _sessionRepository.SearchAsync(refreshToken, userId);
 
-            // Como ya está ordenado en el repositorio, basta con tomar el primero
             return sessions.FirstOrDefault();
-
         }
         
         public async Task<bool> InsertNewSessionAsync(Guid userId, string refreshToken)
@@ -56,15 +51,9 @@ namespace CleanArquitecture.Application.Services.Auth
 
             await _sessionRepository.AddAsync(userSession);
 
-            if (await _sessionRepository.SaveAsync())
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception("Failed to save new session");
-            }
+            if (!await _sessionRepository.SaveAsync()) throw new Exception("Failed to save new session");
+           
+            return true;
         }
-
     }
 };

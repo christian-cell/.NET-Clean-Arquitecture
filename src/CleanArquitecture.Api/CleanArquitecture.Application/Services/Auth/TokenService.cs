@@ -52,8 +52,6 @@ namespace CleanArquitecture.Application.Services.Auth
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        
-
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
@@ -73,12 +71,9 @@ namespace CleanArquitecture.Application.Services.Auth
                 
             var user = await _userRepository.GetByIdAsync(session.UserId);
 
-            if (user == null)
-            {
-                throw new NotFoundException("User" , session.UserId);  
-            }
+            if (user == null) throw new NotFoundException("User" , session.UserId);  
         
-            if(_sessionService.CheckIfRefreshTokenExpired(session))throw new UnauthorizedAccessException();
+            if(_sessionService.CheckIfRefreshTokenExpired(session)) throw new UnauthorizedAccessException();
         
             var accessToken = GenerateToken(new Dictionary<string, string>()
             {

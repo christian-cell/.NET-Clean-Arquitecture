@@ -40,7 +40,7 @@ namespace CleanArquitecture.Api.ActionFilters
             await next();
         }
 
-        private bool ShouldRateLimit(ActionExecutingContext context, out NewScoreRateLimitFilterAttribute configuration , out string name, out string ip, out string lastKey, out string countKey)
+        private bool ShouldRateLimit(ActionExecutingContext context, out EndpointRateLimitFilterAttribute configuration , out string name, out string ip, out string lastKey, out string countKey)
         {
             configuration = null;
             name = null;
@@ -50,7 +50,7 @@ namespace CleanArquitecture.Api.ActionFilters
 
             if (context.ActionArguments.TryGetValue("command", out var obj) && obj is CreateUserCommand)
             {
-                configuration = context.HttpContext.GetEndpoint()?.Metadata.GetMetadata<NewScoreRateLimitFilterAttribute>()!;
+                configuration = context.HttpContext.GetEndpoint()?.Metadata.GetMetadata<EndpointRateLimitFilterAttribute>()!;
 
                 if (configuration != null)
                 {
@@ -94,7 +94,7 @@ namespace CleanArquitecture.Api.ActionFilters
             return false;
         }
 
-        private bool HandleRateLimitExceeded(ActionExecutingContext context, NewScoreRateLimitFilterAttribute configuration, string countKey)
+        private bool HandleRateLimitExceeded(ActionExecutingContext context, EndpointRateLimitFilterAttribute configuration, string countKey)
         {
             _memoryCache.TryGetValue(countKey, out int count);
 

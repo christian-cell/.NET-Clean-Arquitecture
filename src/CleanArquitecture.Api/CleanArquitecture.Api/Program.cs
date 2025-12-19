@@ -15,17 +15,15 @@ namespace CleanArquitecture.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddOpenApi();
             
             GlobalConfiguration globalConfiguration = builder.Configuration.GetSection("Settings").Get<GlobalConfiguration>()!;
             
+            builder.Services.AddOpenApi();
             builder.Services.AddSingleton(globalConfiguration);
             builder.Services.AddDbContextDependencies(globalConfiguration.Azure.Sql.LocalConnectionString!);
             builder.Services.AddControllers();
             builder.Services.AddApplicationServices();
             builder.Services.AddSwaggerHere();
-            
             builder.Services.AddNetNinjaMediator(
                 autoRegisterValidators: true,
                 autoRegisterValidationBehavior: false,
@@ -54,10 +52,7 @@ namespace CleanArquitecture.Api
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                if (dbContext.Database.GetPendingMigrations().Any())
-                {
-                    dbContext.Database.Migrate();
-                }
+                if (dbContext.Database.GetPendingMigrations().Any()) dbContext.Database.Migrate();
             }
             
             app.Run();

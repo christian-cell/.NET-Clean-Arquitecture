@@ -29,7 +29,6 @@ namespace CleanArquitecture.Application.Commands.Auth.Login
             
             var accessToken = _tokenService.GenerateToken(new Dictionary<string, string>()
             {
-                
                 { "email", userDto.Email },
                 { "phone", userDto.Phone },
                 { "firstName", userDto.FirstName },
@@ -38,8 +37,7 @@ namespace CleanArquitecture.Application.Commands.Auth.Login
             });
             
             if(string.IsNullOrEmpty(userDto.Salt)) throw new ArgumentException("Salt can't be null or empty");
-            if(string.IsNullOrEmpty(userDto.PasswordHash)) throw new ArgumentException("Salt can't be null or empty");
-            
+            if(string.IsNullOrEmpty(userDto.PasswordHash)) throw new ArgumentException("PasswordHash can't be null or empty");
             
             string refreshToken;
             
